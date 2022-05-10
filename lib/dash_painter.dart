@@ -38,6 +38,7 @@ class _DashPainter extends CustomPainter {
       _path = dashPath(
         customPath!(size),
         dashArray: CircularIntervalList(dashPattern),
+        dashOffset: offset
       );
     } else {
       _path = _getPath(size, offset: offset);
