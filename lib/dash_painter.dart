@@ -10,6 +10,7 @@ class _DashPainter extends CustomPainter {
   final Radius radius;
   final StrokeCap strokeCap;
   final PathBuilder? customPath;
+  final DashOffset? offset;
 
   _DashPainter({
     this.strokeWidth = 2,
@@ -19,6 +20,7 @@ class _DashPainter extends CustomPainter {
     this.radius = const Radius.circular(0),
     this.strokeCap = StrokeCap.butt,
     this.customPath,
+    this.offset
   }) {
     assert(dashPattern.isNotEmpty, 'Dash Pattern cannot be empty');
   }
@@ -38,14 +40,14 @@ class _DashPainter extends CustomPainter {
         dashArray: CircularIntervalList(dashPattern),
       );
     } else {
-      _path = _getPath(size);
+      _path = _getPath(size, offset: offset);
     }
 
     canvas.drawPath(_path, paint);
   }
 
   /// Returns a [Path] based on the the [borderType] parameter
-  Path _getPath(Size size) {
+  Path _getPath(Size size, {DashOffset? offset}) {
     Path path;
     switch (borderType) {
       case BorderType.Circle:
@@ -62,7 +64,7 @@ class _DashPainter extends CustomPainter {
         break;
     }
 
-    return dashPath(path, dashArray: CircularIntervalList(dashPattern));
+    return dashPath(path, dashArray: CircularIntervalList(dashPattern), dashOffset: offset);
   }
 
   /// Returns a circular path of [size]
